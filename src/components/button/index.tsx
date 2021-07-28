@@ -1,11 +1,11 @@
 import React, {FC} from 'react'
 import classNames from 'classnames'
 import Loading from '../loading'
-import {ComponentCommonProps} from "antd-mobile/src/types";
+import {ElementProps} from "antd-mobile/src/utils/element-props";
 
 const classPrefix = `am-button`
 
-export interface ButtonProps extends ComponentCommonProps {
+export interface ButtonProps extends ElementProps {
   color?: 'default' | 'primary' | 'success' | 'warning' | 'danger',
   fill?: 'solid' | 'outline' | 'none'
   size?: 'mini' | 'small' | 'middle' | 'large'

@@ -5,49 +5,41 @@ import {ElementProps} from '../../utils/element-props'
 
 const classPrefix = `am-card`
 
-export type CardProps = {
+export interface CardProps extends ElementProps {
   title?: ReactNode
   extra?: ReactNode
   onClick?: (event: React.MouseEvent) => void
   onBodyClick?: (event: React.MouseEvent) => void
   onHeaderClick?: (event: React.MouseEvent) => void
-} & ElementProps
+}
 
 const Card: FC<CardProps> = props => {
-  const renderHeader = () => {
-    if (!(props.title || props.extra)) {
-      return null
-    }
-    return (
-      <div
-        className={classNames(`${classPrefix}-header`)}
-        onClick={props.onHeaderClick}
-      >
-        <div className={`${classPrefix}-header-title`}>{props.title}</div>
-        {props.extra}
-      </div>
-    )
-  }
-
-  const renderBody = () => {
-    if (!props.children) {
-      return null
-    }
-    return (
-      <div className={`${classPrefix}-body`} onClick={props.onBodyClick}>
-        {props.children}
-      </div>
-    )
-  }
+  const {className, style, children} = props
+  const {title, extra, onClick, onBodyClick, onHeaderClick} = props
 
   return (
     <div
-      className={classNames(classPrefix, props.className)}
-      onClick={props.onClick}
-      style={props.style}
+      className={classNames(classPrefix, className)}
+      style={style}
+      onClick={onClick}
     >
-      {renderHeader()}
-      {renderBody()}
+      <div
+        className={`${classPrefix}-header`}
+        onClick={onHeaderClick}
+      >
+        {title && (
+          <div className={`${classPrefix}-title`}>{title}</div>
+        )}
+        {extra}
+      </div>
+      {children && (
+        <div
+          className={`${classPrefix}-body`}
+          onClick={onBodyClick}
+        >
+          {children}
+        </div>
+      )}
     </div>
   )
 }
