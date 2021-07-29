@@ -1,7 +1,7 @@
-import {FC, ReactNode} from 'react'
+import { FC, ReactNode } from 'react'
 import React from 'react'
 import classNames from 'classnames'
-import {ElementProps} from '../../utils/element-props'
+import { ElementProps } from '../../utils/element-props'
 
 const classPrefix = `am-card`
 
@@ -14,8 +14,8 @@ export interface CardProps extends ElementProps {
 }
 
 const Card: FC<CardProps> = props => {
-  const {className, style, children} = props
-  const {title, extra, onClick, onBodyClick, onHeaderClick} = props
+  const { className, style, children } = props
+  const { title, extra, onClick, onBodyClick, onHeaderClick } = props
 
   return (
     <div
@@ -23,15 +23,15 @@ const Card: FC<CardProps> = props => {
       style={style}
       onClick={onClick}
     >
-      <div
-        className={`${classPrefix}-header`}
-        onClick={onHeaderClick}
-      >
-        {title && (
-          <div className={`${classPrefix}-title`}>{title}</div>
-        )}
-        {extra}
-      </div>
+      {(title || extra) && (
+        <div
+          className={`${classPrefix}-header`}
+          onClick={onHeaderClick}
+        >
+          <div className={`${classPrefix}-header-title`}>{title}</div>
+          {extra}
+        </div>
+      )}
       {children && (
         <div
           className={`${classPrefix}-body`}

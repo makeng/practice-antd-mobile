@@ -1,7 +1,7 @@
-import React, {FC} from 'react'
+import React, { FC } from 'react'
 import classNames from 'classnames'
 import Loading from '../loading'
-import {ElementProps} from "antd-mobile/src/utils/element-props";
+import { ElementProps } from 'antd-mobile/src/utils/element-props'
 
 const classPrefix = `am-button`
 
@@ -19,8 +19,8 @@ export interface ButtonProps extends ElementProps {
 }
 
 const Button: FC<ButtonProps> = props => {
-  const {className, style} = props
-  const {children, color, fill, block, size, loading, loadingText, type, onClick} = props
+  const { className, style } = props
+  const { children, color, fill, block, size, loading, loadingText, type, onClick } = props
   const disabled = props.disabled || loading
 
   return (
@@ -43,7 +43,7 @@ const Button: FC<ButtonProps> = props => {
         ? (
           <>
             <div className={`${classPrefix}-loading-wrapper`}>
-              <Loading color='currentColor' size={props.size}/>
+              <Loading color="currentColor" size={props.size} />
               {loadingText}
             </div>
           </>)
