@@ -1,9 +1,9 @@
-import React, {useState, useRef, useLayoutEffect, memo} from 'react'
+import React, { useState, useRef, useLayoutEffect, memo } from 'react'
 import classNames from 'classnames'
-import {CloseOutlined, SoundOutlined} from '@ant-design/icons'
-import {usePersistFn, useUpdateLayoutEffect} from 'ahooks'
-import {noop} from '../../utils/noop'
-import {withDefaultProps} from '../../utils/with-default-props'
+import { CloseOutlined, SoundOutlined } from '@ant-design/icons'
+import { usePersistFn, useUpdateLayoutEffect } from 'ahooks'
+import { noop } from '../../utils/noop'
+import { withDefaultProps } from '../../utils/with-default-props'
 
 const classPrefix = `am-notice-bar`
 
@@ -83,15 +83,6 @@ const NoticeBar = memo(
           {'icon' in props ? props.icon : <SoundOutlined />}
         </span>
         <span ref={containerRef} className={`${classPrefix}-content`}>
-          {/* INFO：暂时不做滚动阴影 */}
-          {/* <span
-          className={
-            (containerRef.current?.offsetWidth || 0) <
-            (textRef.current?.offsetWidth || 0)
-              ? `${classPrefix}-shadow`
-              : `${classPrefix}-no-shadow`
-          }
-        > */}
           <span
             onTransitionEnd={() => setKey(k => k + 1)}
             key={key}
