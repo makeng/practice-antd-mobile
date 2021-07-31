@@ -11,7 +11,7 @@ export default () => {
             alert('hello')
           }}
           prefix={'123'}
-          extra={'123'}
+          extra={'更多'}
           title='这里是标题'
           description='这里是描述信息'
         >
