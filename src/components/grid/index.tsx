@@ -15,12 +15,19 @@ export interface GridProps extends ElementProps {
   gap?: Gap
 }
 
-// 获得 CSS 属性
-const getCssProp = {
-  gridColGap: (gap: Gap) => ({ 'row-gap': gap }),
-  gridRowGap: (gap: Gap) => ({ 'column-gap': gap }),
-  gridColumns: (columns: number) => ({ 'grid-template-columns': `repeat(${columns}, minmax(0, 1fr))` }),
-  gridItemColumnEnd: (span: number) => ({ 'grid-column-end': `span ${span}` })
+
+// 获得 CSS 变量，作为 style
+const getCssVarStyle = {
+  gird: (gapCol: Gap, gapRow: Gap, columns: number) => {
+    return {
+      '--horizontal-gap': gapCol,
+      '--vertical-gap': gapRow,
+      '--columns': columns
+    }
+  },
+  gridItem: (span: number) => {
+    return { '--item-span': span }
+  }
 }
 
 const defaultProps = {
@@ -33,11 +40,12 @@ const Grid = withDefaultProps(defaultProps)<GridProps>(props => {
   const createStyle = (style = {}, { columns, gap }): any => {
     if (gap) {
       const [horizontalGap, verticalGap] = Array.isArray(gap) ? gap : [gap, gap]
-      Object.assign(style,
-        getCssProp.gridColGap(typeof verticalGap === 'number' ? `${verticalGap}px` : verticalGap),
-        getCssProp.gridRowGap(typeof horizontalGap === 'number' ? `${horizontalGap}px` : horizontalGap),
-        getCssProp.gridColumns(columns)
+      const gridStyle = getCssVarStyle.gird(
+        typeof verticalGap === 'number' ? `${verticalGap}px` : verticalGap,
+        typeof horizontalGap === 'number' ? `${horizontalGap}px` : horizontalGap,
+        columns
       )
+      Object.assign(style, gridStyle)
     }
     return style
   }
@@ -63,7 +71,7 @@ const GridItem = withDefaultProps({
   const { className, children, span, style = {} } = props
 
   Object.assign(style,
-    getCssProp.gridItemColumnEnd(span)
+    getCssVarStyle.gridItem(span)
   )
 
   return (
