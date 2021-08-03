@@ -18,9 +18,9 @@ export interface GridProps extends ElementProps {
 // 获得 CSS 属性
 const getCssProp = {
   gridColGap: (gap: Gap) => ({ 'row-gap': gap }),
-  getGridRowGap: (gap: Gap) => ({ 'column-gap': gap }),
-  getGridColumns: (columns: number) => ({ 'grid-template-columns': `repeat(${columns}, minmax(0, 1fr))` }),
-  getGridItemColumnEnd: (span: number) => ({ 'grid-column-end': `span ${span}` })
+  gridRowGap: (gap: Gap) => ({ 'column-gap': gap }),
+  gridColumns: (columns: number) => ({ 'grid-template-columns': `repeat(${columns}, minmax(0, 1fr))` }),
+  gridItemColumnEnd: (span: number) => ({ 'grid-column-end': `span ${span}` })
 }
 
 const defaultProps = {
@@ -35,8 +35,8 @@ const Grid = withDefaultProps(defaultProps)<GridProps>(props => {
       const [horizontalGap, verticalGap] = Array.isArray(gap) ? gap : [gap, gap]
       Object.assign(style,
         getCssProp.gridColGap(typeof verticalGap === 'number' ? `${verticalGap}px` : verticalGap),
-        getCssProp.getGridRowGap(typeof horizontalGap === 'number' ? `${horizontalGap}px` : horizontalGap),
-        getCssProp.getGridColumns(columns)
+        getCssProp.gridRowGap(typeof horizontalGap === 'number' ? `${horizontalGap}px` : horizontalGap),
+        getCssProp.gridColumns(columns)
       )
     }
     return style
@@ -63,7 +63,7 @@ const GridItem = withDefaultProps({
   const { className, children, span, style = {} } = props
 
   Object.assign(style,
-    getCssProp.getGridItemColumnEnd(span)
+    getCssProp.gridItemColumnEnd(span)
   )
 
   return (
