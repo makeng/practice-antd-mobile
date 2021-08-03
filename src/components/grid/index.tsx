@@ -9,16 +9,17 @@ const classPrefix = `am-grid`
 
 /* ----------------------------------------- Grid ----------------------------------------- */
 type Gap = number | number[] | string | string[]
+type Columns = number
 
 export interface GridProps extends ElementProps {
-  columns: number
+  columns: Columns
   gap?: Gap
 }
 
 
 // 获得 CSS 变量，作为 style
 const getCssVarStyle = {
-  gird: (gapCol: Gap, gapRow: Gap, columns: number) => {
+  gird: (gapCol: Gap, gapRow: Gap, columns: Columns) => {
     return {
       '--horizontal-gap': gapCol,
       '--vertical-gap': gapRow,
@@ -37,7 +38,8 @@ const defaultProps = {
 const Grid = withDefaultProps(defaultProps)<GridProps>(props => {
   const { className, children, style } = props
 
-  const createStyle = (style = {}, { columns, gap }): any => {
+  const createStyle = (style = {}): any => {
+    const { columns, gap } = props
     if (gap) {
       const [horizontalGap, verticalGap] = Array.isArray(gap) ? gap : [gap, gap]
       const gridStyle = getCssVarStyle.gird(
@@ -53,7 +55,7 @@ const Grid = withDefaultProps(defaultProps)<GridProps>(props => {
   return (
     <div
       className={classNames(`${classPrefix}`, className)}
-      style={createStyle(style, props)}
+      style={createStyle(style)}
     >
       {children}
     </div>
