@@ -1,54 +1,58 @@
-import {withDefaultProps} from '../../utils/with-default-props'
-import {attachPropertiesToComponent} from '../../utils/attach-properties-to-component'
+import { withDefaultProps } from '../../utils/with-default-props'
+import { attachPropertiesToComponent } from '../../utils/attach-properties-to-component'
 import React from 'react'
-import {ElementProps} from '../../utils/element-props'
+import { ElementProps } from '../../utils/element-props'
 import classNames from 'classnames'
+
 
 const classPrefix = `am-grid`
 
-export type GridProps = {
+/* ----------------------------------------- Grid ----------------------------------------- */
+type Gap = number | number[] | string | string[]
+
+export interface GridProps extends ElementProps {
   columns: number
-  gap?: number | number[] | string | string[]
-} & ElementProps
+  gap?: Gap
+}
+
+// 获得 CSS 属性
+const getCssProp = {
+  gridColGap: (gap: Gap) => ({ 'row-gap': gap }),
+  getGridRowGap: (gap: Gap) => ({ 'column-gap': gap }),
+  getGridColumns: (columns: number) => ({ 'grid-template-columns': `repeat(${columns}, minmax(0, 1fr))` }),
+  getGridItemColumnEnd: (span: number) => ({ 'grid-column-end': `span ${span}` })
+}
 
 const defaultProps = {
   gap: 0,
 }
 
 const Grid = withDefaultProps(defaultProps)<GridProps>(props => {
-  let gapStyle: any = {}
-  if (props.style) {
-    gapStyle = {
-      ...gapStyle,
-      ...props.style,
+  const { className, children, style } = props
+
+  const createStyle = (style = {}, { columns, gap }): any => {
+    if (gap) {
+      const [horizontalGap, verticalGap] = Array.isArray(gap) ? gap : [gap, gap]
+      Object.assign(style,
+        getCssProp.gridColGap(typeof verticalGap === 'number' ? `${verticalGap}px` : verticalGap),
+        getCssProp.getGridRowGap(typeof horizontalGap === 'number' ? `${horizontalGap}px` : horizontalGap),
+        getCssProp.getGridColumns(columns)
+      )
     }
+    return style
   }
-  const {gap} = props
-  if (gap) {
-    const [horizontalGap, verticalGap] = Array.isArray(gap) ? gap : [gap, gap]
-    gapStyle = {
-      ...gapStyle,
-      '--vertical-gap':
-        typeof verticalGap === 'number' ? `${verticalGap}px` : verticalGap,
-      '--horizontal-gap':
-        typeof horizontalGap === 'number'
-          ? `${horizontalGap}px`
-          : horizontalGap,
-    }
-  }
+
   return (
     <div
-      className={classNames(`${classPrefix}`, props.className)}
-      style={{
-        ...gapStyle,
-        '--columns': props.columns,
-      }}
+      className={classNames(`${classPrefix}`, className)}
+      style={createStyle(style, props)}
     >
-      {props.children}
+      {children}
     </div>
   )
 })
 
+/* ----------------------------------------- GridItem ----------------------------------------- */
 export type GridItemProps = {
   span?: number
 } & ElementProps
@@ -56,17 +60,18 @@ export type GridItemProps = {
 const GridItem = withDefaultProps({
   span: 1,
 })<GridItemProps>(props => {
-  let itemStyle: any = props.style ?? {}
-  itemStyle = {
-    ...itemStyle,
-    '--item-span': props.span,
-  }
+  const { className, children, span, style = {} } = props
+
+  Object.assign(style,
+    getCssProp.getGridItemColumnEnd(span)
+  )
+
   return (
     <div
-      className={classNames(`${classPrefix}-item`, props.className)}
-      style={itemStyle}
+      className={classNames(`${classPrefix}-item`, className)}
+      style={style}
     >
-      {props.children}
+      {children}
     </div>
   )
 })
