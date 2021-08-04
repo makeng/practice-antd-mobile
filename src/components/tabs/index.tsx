@@ -1,11 +1,12 @@
-import {FC, ReactNode, ReactElement, ComponentProps} from 'react'
+import { FC, ReactNode, ReactElement, ComponentProps } from 'react'
 import React from 'react'
-import {useControllableValue} from 'ahooks'
+import { useControllableValue } from 'ahooks'
 import classNames from 'classnames'
-import {ElementProps} from '../../utils/element-props'
+import { ElementProps } from '../../utils/element-props'
 
 const classPrefix = `am-tabs`
 
+/* ----------------------------------------- TabPane ----------------------------------------- */
 export type TabPaneProps = {
   title: ReactNode
   forceRender?: boolean
@@ -15,6 +16,7 @@ const TabPane: FC<TabPaneProps> = () => {
   return null
 }
 
+/* ----------------------------------------- Tabs ----------------------------------------- */
 export type TabsProps = {
   activeKey?: string
   defaultActiveKey?: string
@@ -81,7 +83,7 @@ const Tabs: FC<TabsProps> & {
         }
         if (pane.props.forceRender) {
           return (
-            <div key={pane.key} style={{display: 'none'}}>
+            <div key={pane.key} style={{ display: 'none' }}>
               {pane.props.children}
             </div>
           )
