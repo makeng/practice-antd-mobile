@@ -6,17 +6,6 @@ import classNames from 'classnames'
 
 
 const classPrefix = `am-grid`
-
-/* ----------------------------------------- Grid ----------------------------------------- */
-type Gap = number | number[] | string | string[]
-type Columns = number
-
-export interface GridProps extends ElementProps {
-  columns: Columns
-  gap?: Gap
-}
-
-
 // 获得 CSS 变量，作为 style
 const getCssVarStyle = {
   gird: (gapCol: Gap, gapRow: Gap, columns: Columns) => {
@@ -31,15 +20,24 @@ const getCssVarStyle = {
   }
 }
 
+/* ----------------------------------------- Grid ----------------------------------------- */
+type Gap = number | number[] | string | string[]
+type Columns = number
+
+export interface GridProps extends ElementProps {
+  columns: Columns
+  gap?: Gap
+}
+
 const defaultProps = {
   gap: 0,
 }
 
 const Grid = withDefaultProps(defaultProps)<GridProps>(props => {
   const { className, children, style } = props
-
-  const createStyle = (style = {}): any => {
-    const { columns, gap } = props
+  const { columns, gap } = props
+  // 构建样式
+  const createStyle = (styleOrigin = {}, col: Columns, gap: Gap): object => {
     if (gap) {
       const [horizontalGap, verticalGap] = Array.isArray(gap) ? gap : [gap, gap]
       const gridStyle = getCssVarStyle.gird(
@@ -47,15 +45,15 @@ const Grid = withDefaultProps(defaultProps)<GridProps>(props => {
         typeof horizontalGap === 'number' ? `${horizontalGap}px` : horizontalGap,
         columns
       )
-      Object.assign(style, gridStyle)
+      Object.assign(styleOrigin, gridStyle)
     }
-    return style
+    return styleOrigin
   }
 
   return (
     <div
       className={classNames(`${classPrefix}`, className)}
-      style={createStyle(style)}
+      style={createStyle(style, columns, gap)}
     >
       {children}
     </div>
@@ -70,16 +68,18 @@ export type GridItemProps = {
 const GridItem = withDefaultProps({
   span: 1,
 })<GridItemProps>(props => {
-  const { className, children, span, style = {} } = props
-
-  Object.assign(style,
-    getCssVarStyle.gridItem(span)
-  )
+  const { className, children, style, span } = props
+  // 构建样式
+  const createStyle = (styleOrigin = {}, value: number): object => {
+    return Object.assign(styleOrigin,
+      getCssVarStyle.gridItem(value)
+    )
+  }
 
   return (
     <div
       className={classNames(`${classPrefix}-item`, className)}
-      style={style}
+      style={createStyle(style, span)}
     >
       {children}
     </div>

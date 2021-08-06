@@ -5,14 +5,14 @@ import React, {
   createRef,
   useEffect,
 } from 'react'
-import {ElementProps} from '../../utils/element-props'
-import {withDefaultProps} from '../../utils/with-default-props'
+import { ElementProps } from '../../utils/element-props'
+import { withDefaultProps } from '../../utils/with-default-props'
 import classNames from 'classnames'
 import Popup from '../popup'
 import Button from '../button'
-import {GetContainer} from '../../utils/render-to-container'
-import {attachPropertiesToComponent} from '../../utils/attach-properties-to-component'
-import {renderToBody} from '../../utils/render-to-body'
+import { GetContainer } from '../../utils/render-to-container'
+import { attachPropertiesToComponent } from '../../utils/attach-properties-to-component'
+import { renderToBody } from '../../utils/render-to-body'
 
 const classPrefix = `am-action-sheet`
 
@@ -73,7 +73,7 @@ const ActionSheet = withDefaultProps(defaultProps)<ActionSheetProps>(props => {
             >
               <Button
                 block
-                fill='none'
+                fill="none"
                 disabled={action.disabled}
                 onClick={() => {
                   action.onClick?.()
@@ -82,9 +82,10 @@ const ActionSheet = withDefaultProps(defaultProps)<ActionSheetProps>(props => {
                     props.onClose?.()
                   }
                 }}
-                className={classNames(`${classPrefix}-button-item`, {
-                  [`${classPrefix}-button-item-danger`]: action.danger,
-                })}
+                className={classNames(
+                  `${classPrefix}-button-item`,
+                  { [`${classPrefix}-button-item-danger`]: action.danger }
+                )}
               >
                 <div className={`${classPrefix}-button-item-name`}>
                   {action.text}
@@ -104,7 +105,7 @@ const ActionSheet = withDefaultProps(defaultProps)<ActionSheetProps>(props => {
             <div className={`${classPrefix}-button-item-wrapper`}>
               <Button
                 block
-                fill='none'
+                fill="none"
                 className={`${classPrefix}-button-item`}
                 onClick={() => {
                   props.onClose?.()
@@ -122,7 +123,7 @@ const ActionSheet = withDefaultProps(defaultProps)<ActionSheetProps>(props => {
   )
 })
 
-function showActionSheet(props: Omit<ActionSheetProps, 'visible'>) {
+function showActionSheet (props: Omit<ActionSheetProps, 'visible'>) {
   type Ref = {
     close: () => void
   }
