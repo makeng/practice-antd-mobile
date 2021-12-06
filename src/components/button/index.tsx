@@ -19,8 +19,8 @@ export interface ButtonProps extends ElementProps {
 }
 
 const Button: FC<ButtonProps> = props => {
-  const { className, style } = props
-  const { children, color, fill, block, size, loading, loadingText, type, onClick } = props
+  const { className, style, children } = props
+  const { color, fill, block, size, loading, loadingText, type, onClick } = props
   const disabled = props.disabled || loading
 
   return (
